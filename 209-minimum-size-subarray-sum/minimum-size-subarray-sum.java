@@ -1,24 +1,18 @@
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
-        int n = nums.length;
-        int[] prefix = new int[n + 1];
+        int left = 0;
+        int sum = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        for (int i = 0; i < n; i++)
-            prefix[i + 1] = prefix[i] + nums[i];
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
 
-        int ans = Integer.MAX_VALUE;
-
-        for (int i = 0; i < n; i++) {
-            int required = target + prefix[i];
-            int bound = Arrays.binarySearch(prefix, required);
-
-            if (bound < 0)
-                bound = -bound - 1;
-
-            if (bound <= n)
-                ans = Math.min(ans, bound - i);
+            while (sum >= target) {
+                minLen = Math.min(minLen, right - left + 1);
+                sum -= nums[left++];
+            }
         }
 
-        return ans == Integer.MAX_VALUE ? 0 : ans;
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
     }
 }
