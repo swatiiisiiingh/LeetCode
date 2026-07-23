@@ -1,23 +1,13 @@
-class Solution {
-    public boolean isAnagram(String s, String t) {
-
-        if (s.length() != t.length()) {
-            return false;
+class Solution{
+    public boolean isAnagram(String s, String t){
+        int [] count = new int[26];
+        for (char ch:s.toCharArray()){
+            count[ch-'a']++;
         }
-
-        int[] count = new int[26];
-
-        for (int i = 0; i < s.length(); i++) {
-            count[s.charAt(i) - 'a']++;
-            count[t.charAt(i) - 'a']--;
+        for (char ch:t.toCharArray()){
+            count[ch-'a']--;
         }
-
-        for (int num : count) {
-            if (num != 0) {
-                return false;
-            }
-        }
-
-        return true;
+        boolean allZeros = Arrays.stream(count).allMatch(element->element==0);
+        return allZeros;
     }
 }
